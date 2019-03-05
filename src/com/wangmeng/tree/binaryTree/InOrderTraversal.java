@@ -7,6 +7,8 @@ import com.wangmeng.dataStructure.TreeNode;
 /**
  * 中序遍历
  * 非递归
+ *
+ * @author wangmeng
  */
 public class InOrderTraversal {
     public List<Integer> inorderTraversal(TreeNode root) {
