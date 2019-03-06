@@ -1,0 +1,18 @@
+一、"=="
+分两种情况:
+1、当两边是基本数据类型时候，"=="比较变量中的值
+2、当两边是引用类型的时候，"=="比较的是变量的地址
+tips:当两边是Integer类型用"=="比较时候，如果值在-128 - 127之间，那么为true,如果在此范围以外，则返回false
+底层代码如下：
+public static Integer valueOf(int i) {
+    if (i >= IntegerCache.low && i <= IntegerCache.high)
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+        return new Integer(i);
+    }
+如果i的值在-128 ~ 127开外，那么就会进行return new Integer(i) 即自动装箱操作，所以以后比较两个Integer值是否
+相等时候，得手动拆箱，即用"对象.intValue"拆箱比较
+
+二、"equals"
+大多数类比如String、Integer等都覆写了equals，所以这些覆写了equals的类比较的是值，而不是地址。
+对于自定义的类，需要覆写equals来指定比较规则，如果不覆写，那么任意两个此类实例都不同，这对于map应用会是个灾难
+
