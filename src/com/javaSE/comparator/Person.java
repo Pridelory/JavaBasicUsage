@@ -1,6 +1,9 @@
 package com.javaSE.comparator;
 
-class Person implements Comparable<Person>{
+/**
+ * Person类
+ */
+class Person implements Comparable<Person> {
     /**
      * 姓名
      */
@@ -9,9 +12,9 @@ class Person implements Comparable<Person>{
     /**
      * 年龄
      */
-    private int age;
+    private Integer age;
 
-    public Person(String name, int age) {
+    public Person(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
@@ -34,7 +37,7 @@ class Person implements Comparable<Person>{
 
     @Override
     public int compareTo(Person p) {
-        return this.name.compareTo(p.name);
+        return this.age.compareTo(p.age);
     }
 
     @Override

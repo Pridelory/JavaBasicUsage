@@ -1,7 +1,5 @@
 package com.javaSE.HashCodeAndEquals;
 
-import java.util.Objects;
-
 /**
  * 为了验证equals和hashCode
  */
@@ -15,11 +13,11 @@ public class Person {
     /**
      * 年龄
      */
-    private int age;
+    private Integer age;
 
     public Person() {}
 
-    public Person(String name, int age) {
+    public Person(String name, Integer age) {
         this.name = name;
         this.age = age;
     }

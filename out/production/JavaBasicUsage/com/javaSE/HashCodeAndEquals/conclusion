@@ -1,18 +1,32 @@
 一、"=="
-分两种情况:
-1、当两边是基本数据类型时候，"=="比较变量中的值
-2、当两边是引用类型的时候，"=="比较的是变量的地址
-tips:当两边是Integer类型用"=="比较时候，如果值在-128 - 127之间，那么为true,如果在此范围以外，则返回false
+说明:"=="默认比较的是变量的地址
+tip1:当两边是Integer类型用"=="比较时候，如果值在-128 - 127之间，那么为true,如果在此范围以外，则返回false
+原因:当两个Integer对象比较时候，会执行自动装箱操作valueOf(int i)代码如下，如果值在-128 ~ 127以内，那么就会调用
+缓存中的值直接返回当前Integer对象，那么用比较两个在-128-127范围内的Integer时，实际上两个值都是在Integer对象的缓存中，所以用==比较时是一个对象，为true。
+如果值在-128 ~ 127开外，那么就会进行return new Integer(i) 即自动装箱操作，所以用==比较时会返回false，所以以后比较两个Integer值是否
+相等时候，得手动拆箱才靠谱，即用"对象.intValue"拆箱
 底层代码如下：
 public static Integer valueOf(int i) {
     if (i >= IntegerCache.low && i <= IntegerCache.high)
         return IntegerCache.cache[i + (-IntegerCache.low)];
         return new Integer(i);
     }
-如果i的值在-128 ~ 127开外，那么就会进行return new Integer(i) 即自动装箱操作，所以以后比较两个Integer值是否
-相等时候，得手动拆箱，即用"对象.intValue"拆箱比较
+
+tip2:对于String类型，现有String s1= "String"和String s2 = "String" 然后打印s1 == s2 结果为true，既然"=="是比较引用的，也就是
+比较s1和s2的内存地址，那这为什么是true呢？
+原因：因为当执行String s1= "String"时，java首先会在缓冲区查找是否有"String"这个常量对象，有就直接将其地址赋给s1，没有就创建一个"String"，
+然后将其赋给s1。对于String s2 = "String"java同样会在缓冲区中查找"String"，这次能查找到了，因为s1创建了一个"String",所以会将其地址赋给s2，
+如此，s1和s2便有了相同的地址。
 
 二、"equals"
 大多数类比如String、Integer等都覆写了equals，所以这些覆写了equals的类比较的是值，而不是地址。
 对于自定义的类，需要覆写equals来指定比较规则，如果不覆写，那么任意两个此类实例都不同，这对于map应用会是个灾难
 
+三、"hashCode"
+当用HashSet添加对象时，首先算当前对象的hashCode，如果对应地址没有被占，那么直接存入，这说明已经断定了这个对象和
+集合里的元素不重复。如果当前对象hashCode对应的地址被占，那么此时就执行equals判断同一bucket中的对象是否和当前对象相同。
+如果当前对象没有覆写hashCode，那么HashSet每次算得的hashCode跟此对象内存位置有关，所以会被当成是不同的对象放进集合里。
+
+其实hashCode的作用就是用来提高效率的。如果没有hashCode，那么对于set集合，每次添加的元素都要和集合中的元素比一下，假如
+集合中已经有1000个元素，再添加一个时，就得相比一千次，效率很低。而hashCode的出现，如果出现hash值相同，那么只在bucket
+框中比就可以了，大大提升了效率。

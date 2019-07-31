@@ -37,4 +37,12 @@ public class TestUsage {
             System.out.println(iterator.next());
         }
     }
+
+    @Test
+    public void test3() {
+        // 字符串
+        String s1 = "abc";
+        String s2 = "abc";
+        System.out.println(s1 == s2);
+    }
 }
