@@ -1,9 +1,9 @@
 一、"=="
 说明:"=="默认比较的是变量的地址
 tip1:当两边是Integer类型用"=="比较时候，如果值在-128 - 127之间，那么为true,如果在此范围以外，则返回false
-原因:当两个Integer对象比较时候，会执行自动装箱操作valueOf(int i)代码如下，如果值在-128 ~ 127以内，那么就会调用
-缓存中的值直接返回当前Integer对象，那么用比较两个在-128-127范围内的Integer时，实际上两个值都是在Integer对象的缓存中，所以用==比较时是一个对象，为true。
-如果值在-128 ~ 127开外，那么就会进行return new Integer(i) 即自动装箱操作，所以用==比较时会返回false，所以以后比较两个Integer值是否
+原因:当执行Integer i = XXX的时候，会执行自动装箱操作valueOf(int i)代码如下，如果值在-128 ~ 127以内，那么就会调用
+缓存中的值直接返回当前Integer对象，那么在赋值时的值在-128-127范围内时，执行valueOf方法，返回的是缓存中的Integer对象，如果此时值相等，那么
+返回的是缓存中的同一个Integer对象，所以此种情况为true。如果值在-128 ~ 127开外，那么就会进行return new Integer(i) 即自动装箱操作，所以用==比较时会返回false，所以以后比较两个Integer值是否
 相等时候，得手动拆箱才靠谱，即用"对象.intValue"拆箱
 底层代码如下：
 public static Integer valueOf(int i) {
@@ -12,9 +12,44 @@ public static Integer valueOf(int i) {
         return new Integer(i);
     }
 
+private static class IntegerCache {
+        static final int low = -128;
+        static final int high;
+        static final Integer cache[];
+
+        static {
+            // high value may be configured by property
+            int h = 127;
+            String integerCacheHighPropValue =
+                sun.misc.VM.getSavedProperty("java.lang.Integer.IntegerCache.high");
+            if (integerCacheHighPropValue != null) {
+                try {
+                    int i = parseInt(integerCacheHighPropValue);
+                    i = Math.max(i, 127);
+                    // Maximum array size is Integer.MAX_VALUE
+                    h = Math.min(i, Integer.MAX_VALUE - (-low) -1);
+                } catch( NumberFormatException nfe) {
+                    // If the property cannot be parsed into an int, ignore it.
+                }
+            }
+            high = h;
+
+            cache = new Integer[(high - low) + 1];
+            int j = low;
+            for(int k = 0; k < cache.length; k++)
+                cache[k] = new Integer(j++);
+
+            // range [-128, 127] must be interned (JLS7 5.1.7)
+            assert IntegerCache.high >= 127;
+        }
+
+        private IntegerCache() {}
+    }
+
+
 tip2:对于String类型，现有String s1= "String"和String s2 = "String" 然后打印s1 == s2 结果为true，既然"=="是比较引用的，也就是
 比较s1和s2的内存地址，那这为什么是true呢？
-原因：因为当执行String s1= "String"时，java首先会在缓冲区查找是否有"String"这个常量对象，有就直接将其地址赋给s1，没有就创建一个"String"，
+原因：因为当执行String s1= "String"时，java首先会在缓冲区(常量池)查找是否有"String"这个常量对象，有就直接将其地址赋给s1，没有就创建一个"String"，
 然后将其赋给s1。对于String s2 = "String"java同样会在缓冲区中查找"String"，这次能查找到了，因为s1创建了一个"String",所以会将其地址赋给s2，
 如此，s1和s2便有了相同的地址。
 
@@ -30,3 +65,6 @@ tip2:对于String类型，现有String s1= "String"和String s2 = "String" 然�
 其实hashCode的作用就是用来提高效率的。如果没有hashCode，那么对于set集合，每次添加的元素都要和集合中的元素比一下，假如
 集合中已经有1000个元素，再添加一个时，就得相比一千次，效率很低。而hashCode的出现，如果出现hash值相同，那么只在bucket
 框中比就可以了，大大提升了效率。
+
+如果两个对象equals，那么它们的hashCode必然相等，
+但是hashCode相等，equals不一定相等。

@@ -1,7 +1,8 @@
 package com.wangmeng.recursion;
 
 import com.wangmeng.dataStructure.ListNode;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

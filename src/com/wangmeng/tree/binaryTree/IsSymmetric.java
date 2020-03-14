@@ -3,7 +3,8 @@ package com.wangmeng.tree.binaryTree;
 import java.util.ArrayList;
 import java.util.List;
 import com.wangmeng.dataStructure.TreeNode;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 /**
  * 判断是否为堆成树

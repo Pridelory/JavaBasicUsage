@@ -1,7 +1,8 @@
 package com.wangmeng.tree.binaryTree;
 
 import com.wangmeng.dataStructure.TreeNode;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 /**
  * 二叉树的深度

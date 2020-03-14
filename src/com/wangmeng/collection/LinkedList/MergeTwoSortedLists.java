@@ -1,7 +1,8 @@
 package com.wangmeng.collection.LinkedList;
 
 import com.wangmeng.dataStructure.*;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 
 /**
  * 合并两个LinkedList(值从小到大)

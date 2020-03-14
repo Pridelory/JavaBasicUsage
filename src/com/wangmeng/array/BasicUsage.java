@@ -1,6 +1,7 @@
 package com.wangmeng.array;
 
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 /**
  * Array基本用法

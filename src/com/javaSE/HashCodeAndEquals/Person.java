@@ -56,7 +56,7 @@ public class Person {
     }
 
     //覆写hashCode
-    public int hashCode() {
-        return age * name.hashCode();
-    }
+//    public int hashCode() {
+//        return age * name.hashCode();
+//    }
 }

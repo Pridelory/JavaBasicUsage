@@ -1,6 +1,8 @@
 package com.wangmeng.collection.LinkedList;
 
-import org.junit.jupiter.api.Test;
+
+
+import org.junit.Test;
 
 import java.util.LinkedList;
 
