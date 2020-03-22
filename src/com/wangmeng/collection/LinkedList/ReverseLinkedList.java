@@ -1,5 +1,6 @@
 package com.wangmeng.collection.LinkedList;
 
+
 /**
  * reverse the linkedlist using different methods
  */
@@ -50,6 +51,22 @@ public class ReverseLinkedList {
         return curr;
     }
 
+    /**
+     * hashmap启发
+     * @param head
+     * @return
+     */
+    public ListNode reverseList3(ListNode head) {
+        ListNode p = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = p;
+            p = head;
+            head = next;
+        }
+        return p;
+    }
+
     public static void main(String[] args) {
         ReverseLinkedList reverseLinkedList = new ReverseLinkedList();
         ListNode head = new ListNode(-1);
@@ -65,6 +82,10 @@ public class ReverseLinkedList {
         p.next = new ListNode(5);
         p = p.next;
         p.next = null;
-        reverseLinkedList.reverseList2(head);
+        ListNode result = reverseLinkedList.reverseList2(head);
+        do {
+            System.out.println(result.val);
+            result = result.next;
+        } while (null != result);
     }
 }

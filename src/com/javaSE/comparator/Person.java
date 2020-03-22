@@ -1,5 +1,6 @@
 package com.javaSE.comparator;
 
+
 /**
  * Person类
  */
@@ -14,9 +15,15 @@ class Person implements Comparable<Person> {
      */
     private Integer age;
 
-    public Person(String name, Integer age) {
+    /**
+     * 钱
+     */
+    private Integer money;
+
+    public Person(String name, Integer age, Integer money) {
         this.name = name;
         this.age = age;
+        this.money = money;
     }
 
     public String getName() {
@@ -35,9 +42,27 @@ class Person implements Comparable<Person> {
         this.age = age;
     }
 
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
     @Override
     public int compareTo(Person p) {
-        return this.age.compareTo(p.age);
+        if (this.age != p.age) {
+            return this.age > p.age ? 1 : -1;
+        }
+        if (this.money != p.money) {
+            return this.money.intValue() > p.money.intValue() ? 1 : -1;
+        }
+        return 0;
     }
 
     @Override
@@ -45,6 +70,7 @@ class Person implements Comparable<Person> {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", money=" + money +
                 '}';
     }
 }

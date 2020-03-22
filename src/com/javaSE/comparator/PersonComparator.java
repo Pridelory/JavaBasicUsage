@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 测试外部比较器Comparator
  */
-public class TestComparator implements Comparator<Person>{
+public class PersonComparator implements Comparator<Person>{
 
     @Override
     public int compare(Person p1, Person p2) {
@@ -21,11 +21,11 @@ public class TestComparator implements Comparator<Person>{
 
     @Test
     public void test() {
-        Person p1 = new Person("cca", 21);
-        Person p2 = new Person("bad", 25);
-        Person p3 = new Person("zzz", 18);
-        Person p4 = new Person("oaz", 34);
-        Person p5 = new Person("ssd", 80);
+        Person p1 = new Person("cca", 21, new Integer(23));
+        Person p2 = new Person("bad", 25, new Integer(12));
+        Person p3 = new Person("bada", 25, new Integer(222));
+        Person p4 = new Person("oaz", 34, new Integer(199));
+        Person p5 = new Person("ssd", 80, new Integer(84));
 
         List<Person> list = new ArrayList<>();
         list.add(p1);
@@ -41,7 +41,10 @@ public class TestComparator implements Comparator<Person>{
 
         System.out.println("---------------------------");
         //排序
-        Collections.sort(list, new TestComparator());
+        Collections.sort(list, new PersonComparator());
+
+        // 也可以直接用lambda表达式
+//        Collections.sort(list, Comparator.comparingInt(Person::getMoney));
 
         //排序后打印
         for (Person p : list) {
